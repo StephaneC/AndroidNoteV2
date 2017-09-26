@@ -1,5 +1,6 @@
 package com.castrec.stephane.androidnotev2.api;
 
+import com.castrec.stephane.androidnotev2.db.entity.MessageEntity;
 import com.castrec.stephane.androidnotev2.helper.JsonParser;
 import com.castrec.stephane.androidnotev2.helper.NetworkHelper;
 import com.castrec.stephane.androidnotev2.model.HttpResult;
@@ -18,7 +19,7 @@ public class MessagesApi {
 
   private String URL = "http://cesi.cleverapps.io/messages";
 
-  public List<Message> getMessages(final String token) {
+  public List<MessageEntity> getMessages(final String token) {
     try {
       HttpResult result = NetworkHelper.doGet(URL, null, token);
 

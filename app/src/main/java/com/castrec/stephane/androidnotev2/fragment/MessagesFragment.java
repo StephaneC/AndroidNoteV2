@@ -1,12 +1,16 @@
 package com.castrec.stephane.androidnotev2.fragment;
 
 import com.castrec.stephane.androidnotev2.R;
+import com.castrec.stephane.androidnotev2.TchatApp;
 import com.castrec.stephane.androidnotev2.adapters.MessageAdapter;
+import com.castrec.stephane.androidnotev2.db.entity.MessageEntity;
 import com.castrec.stephane.androidnotev2.model.Message;
 import com.castrec.stephane.androidnotev2.viewmodel.MessageListViewModel;
+import com.castrec.stephane.androidnotev2.viewmodel.ViewModelFactory;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 /**
  * Created by sca on 06/06/15.
@@ -31,6 +39,8 @@ public class MessagesFragment extends LifecycleFragment {
     MessageAdapter adapter;
 
     MessageListViewModel viewModel;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     //private ListFragmentBinding mBinding;
 
@@ -56,17 +66,19 @@ public class MessagesFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        TchatApp app = (TchatApp) getActivity().getApplication();
+
         viewModel =
-                ViewModelProviders.of(this).get(MessageListViewModel.class);
+                ViewModelProviders.of(this, new ViewModelFactory(app)).get(MessageListViewModel.class);
 
         subscribeUi(viewModel);
     }
 
     private void subscribeUi(MessageListViewModel viewModel) {
         // Update the list when the data changes
-        viewModel.getMessages().observe(this, new Observer<List<Message>>() {
+        viewModel.getMessages().observe(this, new Observer<List<MessageEntity>>() {
             @Override
-            public void onChanged(@Nullable final List<Message> messages) {
+            public void onChanged(@Nullable final List<MessageEntity> messages) {
                 swipeLayout.setRefreshing(false);
                 if (messages != null) {
                     //mBinding.setIsLoading(false);

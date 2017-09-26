@@ -12,16 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
+import com.castrec.stephane.androidnotev2.R;
+import com.castrec.stephane.androidnotev2.adapters.UserAdapter;
+import com.castrec.stephane.androidnotev2.helper.JsonParser;
+import com.castrec.stephane.androidnotev2.helper.NetworkHelper;
+import com.castrec.stephane.androidnotev2.model.HttpResult;
+import com.castrec.stephane.androidnotev2.model.User;
+import com.castrec.stephane.androidnotev2.session.Session;
+import com.castrec.stephane.androidnotev2.utils.Constants;
 
-import cesi.com.tchatapp.R;
-import cesi.com.tchatapp.adapter.UserAdapter;
-import cesi.com.tchatapp.helper.JsonParser;
-import cesi.com.tchatapp.helper.NetworkHelper;
-import cesi.com.tchatapp.model.HttpResult;
-import cesi.com.tchatapp.model.User;
-import cesi.com.tchatapp.session.Session;
-import cesi.com.tchatapp.utils.Constants;
+import java.util.List;
 
 /**
  * Created by sca on 06/06/15.
@@ -117,7 +117,7 @@ public class UsersFragment extends Fragment {
             try {
                 HttpResult result = NetworkHelper.doGet(context.getString(R.string.url_users), null, Session.token);
 
-                if(result.code != 200){
+                if(result.status != 200){
                     //error happened
                     return null;
                 }

@@ -16,6 +16,7 @@ import com.castrec.stephane.androidnotev2.helper.JsonParser;
 import com.castrec.stephane.androidnotev2.helper.NetworkHelper;
 import com.castrec.stephane.androidnotev2.helper.PreferenceHelper;
 import com.castrec.stephane.androidnotev2.model.HttpResult;
+import com.castrec.stephane.androidnotev2.session.Session;
 import com.castrec.stephane.androidnotev2.utils.Constants;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class SigninActivity extends Activity {
                     return;
                 }
                 loading(true);
-                new SigninAsyncTask(v.getContext()).execute();
+                new SigninAsyncTask(v.getContext()).execute(username.getText().toString(), pwd.getText().toString());
             }
         });
         findViewById(R.id.signin_register).setOnClickListener(new View.OnClickListener() {
@@ -98,9 +99,6 @@ public class SigninActivity extends Activity {
                 return null;
             }
 
-            // Un stream pour récevoir la réponse
-            InputStream inputStream = null;
-
             try {
 
                 Map<String, String> p = new HashMap<>();
@@ -120,14 +118,6 @@ public class SigninActivity extends Activity {
             } catch (Exception e) {
                 Log.e("NetworkHelper", e.getMessage());
                 return null;
-            } finally {
-                if (inputStream != null) {
-                    try {
-                        inputStream.close();
-                    } catch (IOException e) {
-                        Log.e("NetworkHelper", e.getMessage());
-                    }
-                }
             }
         }
 
@@ -136,6 +126,7 @@ public class SigninActivity extends Activity {
             loading(false);
             if(token != null){
                 Intent i = new Intent(context, MainActivity.class);
+                Session.token = token;
                 i.putExtra(Constants.INTENT_TOKEN, token);
                 startActivity(i);
             } else {

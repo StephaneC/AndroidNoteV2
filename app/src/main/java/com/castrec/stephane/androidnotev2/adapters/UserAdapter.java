@@ -8,10 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.castrec.stephane.androidnotev2.R;
+import com.castrec.stephane.androidnotev2.model.User;
+
 import java.util.List;
 
-import cesi.com.tchatapp.R;
-import cesi.com.tchatapp.model.User;
 
 /**
  * Created by sca on 07/06/15.

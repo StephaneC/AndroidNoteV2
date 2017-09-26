@@ -10,22 +10,22 @@ import com.castrec.stephane.androidnotev2.model.Message;
 /**
  * Created by sca on 02/06/15.
  */
-@Entity(tableName = "messages", foreignKeys = {
-        @ForeignKey(entity = MessageEntity.class,
-                parentColumns = "id",
-                childColumns = "messageId",
-                onDelete = ForeignKey.CASCADE)}, indices = {
-        @Index(value = "messageId")
-})
-public class MessageEntity implements Message {
+@Entity(tableName = "messages")
+public class MessageEntity {
 
-    @PrimaryKey(autoGenerate = true)
-    private int id;
     private int messageId;
     private String message;
     private String username;
+    @PrimaryKey
     private long date;
 
+    public int getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
+    }
     public void setUsername(String username){
         this.username = username;
     }
@@ -38,17 +38,14 @@ public class MessageEntity implements Message {
         this.date = date;
     }
 
-    @Override
     public String getUsername() {
         return username;
     }
 
-    @Override
     public String getMessage() {
         return message;
     }
 
-    @Override
     public long getDate() {
         return date;
     }

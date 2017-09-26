@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.castrec.stephane.androidnotev2.R;
+import com.castrec.stephane.androidnotev2.db.entity.MessageEntity;
 import com.castrec.stephane.androidnotev2.model.Message;
 
 import java.text.ParseException;
@@ -26,9 +27,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     this.context = ctx;
   }
 
-  List<Message> messages = new LinkedList<Message>();
+  List<MessageEntity> messages = new LinkedList<MessageEntity>();
 
-  public void setMessages(List<Message> messages) {
+  public void setMessages(List<MessageEntity> messages) {
     this.messages = messages;
     this.notifyDataSetChanged();
   }

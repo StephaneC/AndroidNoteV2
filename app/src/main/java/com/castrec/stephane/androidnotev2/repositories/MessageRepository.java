@@ -1,14 +1,18 @@
 package com.castrec.stephane.androidnotev2.repositories;
 
 import com.castrec.stephane.androidnotev2.api.MessagesApi;
+import com.castrec.stephane.androidnotev2.db.AppDatabase;
 import com.castrec.stephane.androidnotev2.db.dao.MessageDao;
+import com.castrec.stephane.androidnotev2.db.entity.MessageEntity;
 import com.castrec.stephane.androidnotev2.model.Message;
 import com.castrec.stephane.androidnotev2.session.Session;
 
 import android.arch.lifecycle.LiveData;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -20,27 +24,43 @@ import javax.inject.Singleton;
 @Singleton
 public class MessageRepository {
 
-  private final Executor executor;
+    public  Executor executor;
+    public MessagesApi api;
+    public MessageDao dao;
 
-  private final MessagesApi api;
+    /*public MessageRepository(){
+        executor = Executors.newSingleThreadExecutor();
+    }*/
 
-  private final MessageDao dao;
+    @Inject
+    public MessageRepository(MessagesApi api, MessageDao dao) {
+        this.api = api;
+        this.dao = dao;
+        executor = Executors.newSingleThreadExecutor();
+    }
 
+    public LiveData<List<MessageEntity>> loadMessages() {
+        refreshMessages();
+        return dao.loadAllMessages();
+    }
 
-  @Inject
-  public MessageRepository(MessagesApi api, MessageDao dao, Executor executor) {
-    this.api = api;
-    this.dao = dao;
-    this.executor = executor;
-  }
+    private void refreshMessages() {
+        executor.execute(new Runnable() {
 
-  public LiveData<List<Message>> loadMessages() {
-    refreshMessages();
-    return dao.loadAllMessages();
-  }
+                                   @Override
+                                   public void run() {
+                                       // running in a background thread
+                                       // refresh the data
+                                       List<MessageEntity> response = api.getMessages(Session.token);
+                                       // TODO check for error etc.
+                                       // Update the database.The LiveData will automatically refresh so
+                                       // we don't need to do anything else here besides updating the database
+                                       if(response != null)
+                                        dao.insertMessage(response);
+                                   }
+                               }
 
-  private void refreshMessages() {
-    executor.execute(() -> {
+    /* {
       // running in a background thread
       // refresh the data
       List<Message> response = api.getMessages(Session.token);
@@ -49,7 +69,7 @@ public class MessageRepository {
       // we don't need to do anything else here besides updating the database
       dao.insertMessage(response);
 
-    });
-  }
+    }*/);
+    }
 
 }

@@ -1,7 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-</FrameLayout>
+    >
+
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/messages"
+        class="com.castrec.stephane.androidnotev2.fragment.MessagesFragment"></fragment>
+
+    <RelativeLayout android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/tchat_send"
+            android:layout_alignParentRight="true"/>
+
+        <EditText
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/tchat_msg"
+            android:hint="@string/tchat_message"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

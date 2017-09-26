@@ -1,5 +1,6 @@
 package com.castrec.stephane.androidnotev2.db.dao;
 
+import com.castrec.stephane.androidnotev2.db.entity.MessageEntity;
 import com.castrec.stephane.androidnotev2.model.Message;
 
 import android.arch.lifecycle.LiveData;
@@ -14,8 +15,8 @@ import java.util.List;
 @Dao
 public interface MessageDao {
     @Query("SELECT * FROM messages")
-    LiveData<List<Message>> loadAllMessages();
+    LiveData<List<MessageEntity>> loadAllMessages();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMessage(List<Message> msg);
+    void insertMessage(List<MessageEntity> msg);
 }

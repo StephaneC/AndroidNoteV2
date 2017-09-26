@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class JsonParser {
 
-    public static List<Message> getMessages(String json) throws JSONException {
-        List<Message> messages = new LinkedList<>();
+    public static List<MessageEntity> getMessages(String json) throws JSONException {
+        List<MessageEntity> messages = new LinkedList<>();
         JSONArray array = new JSONArray(json);
         JSONObject obj;
         MessageEntity msg;
